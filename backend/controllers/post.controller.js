@@ -39,6 +39,7 @@ export const createPost = async (req, res) => {
   }
 
   const newPost = new Post({ user: user._id, slug, ...req.body });
+  console.log(newPost);
 
   const post = await newPost.save();
   res.status(200).json(post);
