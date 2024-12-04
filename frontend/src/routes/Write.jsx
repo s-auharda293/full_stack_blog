@@ -15,19 +15,18 @@ const Write = () => {
   const [cover, setCover] = useState("");
   const [img, setImg] = useState("");
   const [video, setVideo] = useState("");
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     img && setValue((prev) => prev + `<p><image src="${img.url}"></p>`);
-  });
+  }, [img]);
 
   useEffect(() => {
     video &&
       setValue(
         (prev) => prev + `<p><iframe class="ql-video" src="${video.url}"></p>`
       );
-  });
-
-  const [progress, setProgress] = useState(0);
+  }, [video]);
 
   const navigate = useNavigate();
 
@@ -78,11 +77,23 @@ const Write = () => {
     <div className="h-[calc(100vh-64px)] md:h-[calc(100vh-80px)] flex flex-col gap-6">
       <h1 className="text-xl font-light">Create a New Post</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-6 flex-1 mb-6">
-        <Upload type="image" setProgress={setProgress} setData={setCover}>
-          <button className="p-2 w-max shadow-md rounded-xl text-sm text-gray bg-white">
-            Add a cover image
-          </button>
-        </Upload>
+        <div>
+          <Upload type="image" setProgress={setProgress} setData={setCover}>
+            <button
+              className="p-2 w-max shadow-md rounded-xl text-sm text-gray bg-white"
+              onClick={(e) => e.preventDefault()}
+            >
+              Add a cover image
+            </button>{" "}
+          </Upload>
+          {cover && (
+            <div className="mt-4">
+              <p className="text-sm text-gray-700">
+                Uploaded file: {cover.name}
+              </p>
+            </div>
+          )}
+        </div>
         <input
           type="text"
           placeholder="My Awesome Story"
@@ -109,8 +120,8 @@ const Write = () => {
           placeholder="A short description..."
           className="p-4 rounded-xl bg-white shadow-md"
         />
-        <div className="flex flex-1 ">
-          <div className="flex flex-1 flex-col gap-2 mr-2">
+        <div className="flex">
+          <div className="flex flex-col gap-2 mr-2">
             <Upload type="image" setProgress={setProgress} setData={setImg}>
               🌆
             </Upload>
@@ -120,7 +131,7 @@ const Write = () => {
           </div>
           <ReactQuill
             theme="snow"
-            className="rounded-xl bg-white shadow-md"
+            className="rounded-xl bg-white shadow-md w-full"
             value={value}
             onChange={setValue}
             readOnly={progress > 0 && progress < 100}
