@@ -10,11 +10,11 @@ const fetchComments = async (postId) => {
   const res = await axios.get(
     `${import.meta.env.VITE_API_URL}/comments/${postId}`
   );
+  // console.log(res);
   return res.data;
 };
 
 const Comments = ({ postId }) => {
-  const [commentText, setCommentText] = useState("");
   const { getToken } = useAuth();
   const { isPending, error, data } = useQuery({
     queryKey: ["comments", postId],
@@ -26,6 +26,7 @@ const Comments = ({ postId }) => {
   const mutation = useMutation({
     mutationFn: async (newComment) => {
       const token = await getToken();
+      console.log(token);
       return axios.post(
         `${import.meta.env.VITE_API_URL}/comments/${postId}`,
         newComment,
@@ -37,23 +38,21 @@ const Comments = ({ postId }) => {
       );
     },
 
-    onSuccess: (res) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["comments", postId] });
-      setCommentText("");
     },
 
     onError: (err) => {
-      const errorMessage =
-        err.response?.data?.message || err.message || "Something went wrong.";
-      toast.error(errorMessage);
+      toast.error(err.response.data);
     },
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const formData = new FormData(e.target);
 
     const data = {
-      desc: commentText,
+      desc: formData.get("desc"),
     };
 
     mutation.mutate(data);
@@ -73,8 +72,6 @@ const Comments = ({ postId }) => {
           name="desc"
           placeholder="Write a comment..."
           className="w-full p-4 rounded-xl"
-          value={commentText}
-          onChange={(e) => setCommentText(e.target.value)}
         />
         <button className="bg-blue-800 px-4 py-3 text-white font-medium rounded-xl">
           Post

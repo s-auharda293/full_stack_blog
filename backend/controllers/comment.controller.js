@@ -1,7 +1,8 @@
 import Comment from "../models/comment.model.js";
 import User from "../models/user.model.js";
 
-export const getComments = async (req, res) => {
+export const getPostComments = async (req, res) => {
+  // console.log(req.params.postId);
   const comments = await Comment.find({ post: req.params.postId })
     .populate("user", "username img")
     .sort({ createdAt: -1 });
@@ -9,8 +10,8 @@ export const getComments = async (req, res) => {
   res.json(comments);
 };
 
-export const addComment = async (req, res) => {
-  const clerkUserId = req.auth.clerkUserId;
+export const addPostComment = async (req, res) => {
+  const clerkUserId = req.auth.userId;
   const postId = req.params.postId;
 
   if (!clerkUserId) {
@@ -30,9 +31,9 @@ export const addComment = async (req, res) => {
   res.status(201).json(savedComment);
 };
 
-export const deleteComment = async (req, res) => {
-  const clerkUserId = req.auth.clerkUserId;
-  const postId = req.params.postId;
+export const deletePostComment = async (req, res) => {
+  const clerkUserId = req.auth.userId;
+  const id = req.params.id;
 
   if (!clerkUserId) {
     return res.status(401).json("Not authenticated!");

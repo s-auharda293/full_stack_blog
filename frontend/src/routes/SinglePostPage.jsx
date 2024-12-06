@@ -10,7 +10,6 @@ import { format } from "timeago.js";
 const fetchPost = async (slug) => {
   const res = await axios.get(`${import.meta.env.VITE_API_URL}/posts/${slug}`);
   return res.data;
-  return res.data;
 };
 
 const SinglePostPage = () => {
