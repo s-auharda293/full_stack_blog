@@ -1,4 +1,4 @@
-import { IKContext, IKImage, IKUpload } from "imagekitio-react";
+import { IKContext, IKUpload } from "imagekitio-react";
 import { toast } from "react-toastify";
 import { useRef } from "react";
 
@@ -48,7 +48,6 @@ const Upload = ({ children, type, setProgress, setData }) => {
       authenticator={authenticator}
     >
       <IKUpload
-        fileName="test-upload.png"
         useUniqueFileName
         onError={onError}
         onSuccess={onSuccess}

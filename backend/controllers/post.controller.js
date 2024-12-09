@@ -4,7 +4,7 @@ import ImageKit from "imagekit";
 
 export const getPosts = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.page) || 2;
+  const limit = parseInt(req.query.limit) || 2;
 
   const posts = await Post.find()
     .populate("user", "username")
@@ -18,7 +18,9 @@ export const getPosts = async (req, res) => {
 };
 
 export const getPost = async (req, res) => {
-  const post = await Post.findOne({ slug: req.params.slug });
+  const post = await Post.findOne({ slug: req.params.slug })
+    .populate("user", "img")
+    .populate("user", "username");
   res.status(200).json(post);
 };
 
