@@ -41,9 +41,11 @@ const SinglePostPage = () => {
           </div>
           <p className="text-gray-500 font-medium">{data.desc}</p>
         </div>
-        <div className="hidden lg:block w-2/5">
-          <Image src="postImg.jpeg" w="600" className="rounded-2xl" />
-        </div>
+        {data.img && (
+          <div className="hidden lg:block w-2/5">
+            <Image src={data.img} w="600" className="rounded-2xl" />
+          </div>
+        )}
       </div>
       {/* content  */}
       <div className="flex flex-col md:flex-row gap-12">
