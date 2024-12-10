@@ -32,7 +32,9 @@ export const addPostComment = async (req, res) => {
 
   const savedComment = await newComment.save();
 
-  res.status(201).json(savedComment);
+  setTimeout(() => {
+    res.status(201).json(savedComment);
+  }, 3000);
 };
 
 export const deletePostComment = async (req, res) => {
