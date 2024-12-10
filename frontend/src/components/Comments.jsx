@@ -4,7 +4,6 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@clerk/clerk-react";
 import { toast } from "react-toastify";
 import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
 
 const fetchComments = async (postId) => {
   const res = await axios.get(

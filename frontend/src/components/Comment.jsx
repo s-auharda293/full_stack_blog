@@ -7,7 +7,7 @@ const Comment = ({ comment }) => {
       <div className="flex items-center gap-4">
         {comment.user.img && (
           <Image
-            src="userImg.jpeg"
+            src={comment.user.img}
             className="w-10 h-10 rounded-full object-cover"
             w="40"
           />

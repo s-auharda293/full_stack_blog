@@ -12,6 +12,8 @@ export const getPostComments = async (req, res) => {
 
 export const addPostComment = async (req, res) => {
   const clerkUserId = req.auth.userId;
+
+  console.log(clerkUserId);
   const postId = req.params.postId;
 
   if (!clerkUserId) {
@@ -19,6 +21,8 @@ export const addPostComment = async (req, res) => {
   }
 
   const user = await User.findOne({ clerkUserId });
+
+  // console.log(user);
 
   const newComment = new Comment({
     ...req.body,
@@ -39,7 +43,7 @@ export const deletePostComment = async (req, res) => {
     return res.status(401).json("Not authenticated!");
   }
 
-  const user = User.findOne({ clerkUserId });
+  const user = await User.findOne({ clerkUserId });
 
   const deletedComment = await Comment.findOneAndDelete({
     _id: id,
